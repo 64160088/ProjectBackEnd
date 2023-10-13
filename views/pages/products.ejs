@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+</head>
+
+<body>
+    <h1>Products</h1>
+    <p>Here is a list of products</p>
+    <form action="/products" method="POST" enctype="multipart/form-data">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br>
+
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description"><br>
+
+        <label for="price">Price:</label>
+        <input type="text" id="price" name="price"><br>
+
+        <label for="sale_price">Sale Price:</label>
+        <input type="text" id="sale_price" name="sale_price"><br>
+
+        <label for="quantity">Quantity:</label>
+        <input type="text" id="quantity" name="quantity"><br>
+
+        <label for="image">Image:</label>
+        <input type="file" id="image" name="image"><br>
+
+        <label for="category">Category:</label>
+        <input type="text" id="category" name="category"><br>
+
+        <label for="type">Type:</label>
+        <input type="text" id="type" name="type"><br>
+
+        <label for="rating">Rating:</label>
+        <select id="rating" name="rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select><br>
+
+
+        <input type="submit" value="Submit">
+    </form>
+    
+</body>
+
+</html>
