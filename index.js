@@ -6,11 +6,36 @@ const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const upload = multer({ dest: 'public/uploads/' });
+const session = require('express-session');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(session({ secret: "secret" }));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
+
+
+function isProductInCart(cart, id) {
+    for (let i = 0; i < cart.length; i++) {
+        if (cart[i].id == id) {
+            return true;
+        }
+    }
+    return false;
+}
+function calculateTotal(cart, req) {
+    total = 0;
+    for (let i = 0; i < cart.length; i++) {
+       if(cart[i].sale_price){
+              total += cart[i].sale_price * cart[i].quantity;
+         } else {
+                total += cart[i].price * cart[i].quantity;
+             }
+    }
+    req.session.total = total;
+    return total;
+}
+
 
 const connection = mysql.createConnection({
     host: "localhost",
@@ -39,6 +64,42 @@ app.get('/', async (req, res) => {
         }
     });
 });
+
+app.post('/add_to_cart', (req, res) => {
+    let id = req.body.id;
+    let name = req.body.name;
+    let description = req.body.description;
+    let price = req.body.price;
+    let sale_price = req.body.sale_price;
+    let quantity = req.body.quantity;
+    let image = req.body.image;
+    let product = { id: id, name: name, description: description, price: price, sale_price: sale_price, quantity: quantity, image: image };
+
+    if (req.session.cart) {
+        let cart = req.session.cart;
+
+        if (!isProductInCart(cart.id)) {
+            cart.push(product);
+        }
+    } else {
+        req.session.cart = [product];
+        let cart = req.session.cart;
+    }
+
+    //calculate total
+    calcutaleTotal(cart, req);
+
+    //redirect to cart
+    res.redirect('/cart');
+}
+);
+
+app.get('/cart', (req, res) => {
+    let cart = req.session.cart;
+    let total = req.session.total;
+    res.render('pages/cart', { cart: cart, total: total });
+}
+);
 
 app.get('/products', (req, res) => {
     res.render('pages/products');
