@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- site metas -->
-    <title>SAMINGSHOP</title>
+    <title>pomato</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -76,6 +76,18 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-6 offset-md-6">
+                        <div class="location_icon_bottum">
+                            <ul>
+                                <li><img src="icon/call.png" />(+71)0971257230</li>
+                                <li><img src="icon/email.png" />SuJai@gmail.com</li>
+                                <li><img src="icon/loc.png" />Location</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- end header inner -->
     </header>
     <!-- end header -->
@@ -84,89 +96,13 @@
     
     <!-- cart -->
     <section class="cart container mt-2 my-3 py-5">
-        <div class="container_mt-2">
-            <a>Your Cart</a>
+        <div class="container mt-2">
+            <h4 >Payment</h4>
         </div>
 
-        <table class="pt-5" style="width: 100%">
-            <tr style="color: rgb(255, 255, 255); background-color: black; ">
-                <th >Product</th>
-                <th >Quantity</th>
-                <th style="text-align: right;">Subtotal</th>
-            </tr>
+        
 
-            <% cart.forEach(function(product){ %>
-            <tr>
-                <td>
-                    <div class="product-info">
-                        <img src="uploads/<%= product.image %>">
-                    <div>
 
-                     <p><%= product.name %></p>
-
-                     <% if(product.sale_price){ %>
-
-                        <small class="prices"><span>$</span><%= product.sale_price %></small>
-
-                    <%}else{%>
-
-                        <small class="prices"><span>$</span><%= product.price %></small>
-                     <% } %>
-                     <br>
-                     
-                   
-
-                    
-                    </div>                    
-                    </div>
-                </td>
-                
-                <td>
-                    <form  method="post" action="/edit_product_qauntity" class="edit_product_qauntity">
-
-                        <input type="hidden" name="id" value="<%=product.id%>">
-                        <input type="submit" value="-" class="edit-btn" name="decrease_product_quantity_btn" style="color: black; background-color: white;" >
-                        <input style="text-align: center;" type="text" class="quantitybox" name="quantity" value="<%= product.quantity %>" readonly >
-                        <input type="submit" value="+" class="edit-btn" name="increase_product_quantity_btn" style="color: rgb(255, 255, 255); background-color: red;">
-                    </form>
-
-                    <form method="post" action="/remove_product">
-                        <input type="hidden" name="id" value="<%=product.id%>" >
-                        <button type="submit" name="remove_btn" class="remove-btn" value="remove">Remove</button>
-                     </form> 
-                </td>
-
-                <td>
-
-                    <% if(product.sale_price){ %>
-                    <span class="product-price">$ <%= product.sale_price * product.quantity %></span>
-                    
-                    <%} else { %>
-                        <span class="product-price">$ <%= product.price * product.quantity %></span>
-                    <% } %>
-                </td>
-            </tr>
-        </table>
-        <% }) %>
-       
-
-        <div class="cart-total">
-            <table>
-                <tr>
-                    <td style="color: rgb(0, 0, 0); font-weight: bold">Total</td>
-                    <td style="text-align:right; color: red; font-weight: bold">$ <%= total %></td>
-                </tr>
-            </table>
-        </div>
-
-    </section>
-    <center>
-    <div class="checkout-container">
-        <form method="get" action="/checkout">
-            <button class="btn btn-primary">Checkout name</button>
-        </form>
-    </div>
-    </center>
     </footer>
     <!-- end footer -->
     <!-- Javascript files-->
@@ -197,3 +133,12 @@
             });
         });
     </script>
+</body>
+
+</html>
+
+<div id="paypal-button-container"></div>
+    <p id="result-message"></p>
+    <!-- Replace the "test" client-id value with your client-id -->
+    <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
+    <script src="app.js"></script>

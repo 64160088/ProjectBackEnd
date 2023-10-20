@@ -10,7 +10,7 @@ const session = require('express-session');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(session({ secret: "secret" }));
+app.use(session({secret: "secret",resave:false,saveUninitialized:false,}));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
@@ -35,8 +35,6 @@ function calculateTotal(cart, req) {
     req.session.total = total;
     return total;
 }
-
-
 const connection = mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -65,34 +63,30 @@ app.get('/', async (req, res) => {
     });
 });
 
-app.post('/add_to_cart', (req, res) => {
-    let id = req.body.id;
-    let name = req.body.name;
-    let description = req.body.description;
-    let price = req.body.price;
-    let sale_price = req.body.sale_price;
-    let quantity = req.body.quantity;
-    let image = req.body.image;
-    let product = { id: id, name: name, description: description, price: price, sale_price: sale_price, quantity: quantity, image: image };
+app.post('/add_to_cart', function (req, res) {
+    var id = req.body.id;
+    var name = req.body.name;
+    var price = req.body.price;
+    var sale_price = req.body.sale_price;
+    var quantity = req.body.quantity;
+    var image = req.body.image;
+    var product = { id: id, name: name, price: price, sale_price: sale_price, quantity: quantity, image: image }
 
-    if (req.session.cart) {
-        let cart = req.session.cart;
-
-        if (!isProductInCart(cart.id)) {
+    if (req, session.cart) {
+        var cart = res.session.cart;
+        if (!isProductIncart(cart, id)) {
             cart.push(product);
         }
     } else {
         req.session.cart = [product];
-        let cart = req.session.cart;
+        var cart = req.session.cart;
     }
 
-    //calculate total
-    calcutaleTotal(cart, req);
+    //เครื่องคิดเลข
+    calculateTotal(cart, req);
+    res.redirect('/cart')
+});
 
-    //redirect to cart
-    res.redirect('/cart');
-}
-);
 
 app.get('/cart', (req, res) => {
     let cart = req.session.cart;
@@ -100,6 +94,101 @@ app.get('/cart', (req, res) => {
     res.render('pages/cart', { cart: cart, total: total });
 }
 );
+
+app.post('/remove_product', function(req, res) {
+    var id = req.body.id;
+    var cart = req.session.cart;
+
+    for (let i = 0; i < cart.length; i++) {
+        if (cart[i].id === id) {
+            cart.splice(cart.indexOf(i), 1);
+        }
+    }
+    //recalculate
+    calculateTotal(cart,req);
+    res.redirect('/cart');
+
+});
+
+app.post('/edit_product_qauntity', function (req,res) {
+
+    var id = req.body.id;
+    var quantity = req.body.quantity;
+    var increase_btn = req.body.increase_product_quantity_btn;
+    var decrease_btn = req.body.decrease_product_quantity_btn;
+
+
+    var cart = req.session.cart;
+
+    if (increase_btn) {
+        for (let i = 0; i < cart.length; i++) {
+            if (cart[i].id === id) {
+
+                if (cart[i].quantity > 0) {
+                    cart[i].quantity = parseInt(cart[i].quantity) + 1;
+                }
+            }
+        }
+    }
+
+    if (decrease_btn) {
+        for (let i = 0; i < cart.length; i++) {
+            if (cart[i].id === id) {
+
+                if (cart[i].quantity > 1) {
+                    cart[i].quantity = parseInt(cart[i].quantity) - 1;
+                }
+            }
+        }
+    }
+    calculateTotal(cart, req);
+    res.redirect('/cart');
+})
+
+app.get('/checkout', function (req, res) {
+    var total = req.session.total;
+    res.render('pages/checkout', { total:total })
+})
+
+app.post('/place_order', function (req, res) {
+
+   var cost = req.body.total;
+   var name = req.body.name;
+   var email = req.body.email;
+   var status = req.body.status;
+   var city = req.body.city;
+   var address = req.body.address;
+   var phone = req.body.phone;
+   var date = new Date();
+
+
+    const connection = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "",
+        database: "node_prject"
+
+    });
+
+    var cart = req.session,cart
+    for(let i=0; i<cart.length;i++){
+        product_ids = product_ids +","+ cart[i].id;
+    }
+    connection.connect((err) => {
+        if (err) {
+            console.log(err)
+        } else {
+            var query = "INSERT INTO orders(cost,name,email,status,city,address,phone,date,product_ids) VALUES ?";
+            var values = [
+                [cost, name, email, status, city, address, phone, date,product_ids]
+            ];
+            connection.query(query, [values],(err, results)=> {
+                res.redirect('/payment');
+            })
+        }
+    })
+})
+
 
 app.get('/products', (req, res) => {
     res.render('pages/products');
@@ -125,6 +214,7 @@ app.post('/products', upload.single('image'), (req, res) => {
         }
     });
 });
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
