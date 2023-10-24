@@ -10,7 +10,7 @@ const session = require('express-session');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(session({secret: "secret",resave:false,saveUninitialized:false,}));
+app.use(session({ secret: "secret", resave: false, saveUninitialized: false, }));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
@@ -26,11 +26,11 @@ function isProductInCart(cart, id) {
 function calculateTotal(cart, req) {
     total = 0;
     for (let i = 0; i < cart.length; i++) {
-       if(cart[i].sale_price){
-              total += cart[i].sale_price * cart[i].quantity;
-         } else {
-                total += cart[i].price * cart[i].quantity;
-             }
+        if (cart[i].sale_price) {
+            total += cart[i].sale_price * cart[i].quantity;
+        } else {
+            total += cart[i].price * cart[i].quantity;
+        }
     }
     req.session.total = total;
     return total;
@@ -95,7 +95,7 @@ app.get('/cart', (req, res) => {
 }
 );
 
-app.post('/remove_product', function(req, res) {
+app.post('/remove_product', function (req, res) {
     var id = req.body.id;
     var cart = req.session.cart;
 
@@ -105,12 +105,12 @@ app.post('/remove_product', function(req, res) {
         }
     }
     //recalculate
-    calculateTotal(cart,req);
+    calculateTotal(cart, req);
     res.redirect('/cart');
 
 });
 
-app.post('/edit_product_qauntity', function (req,res) {
+app.post('/edit_product_qauntity', function (req, res) {
 
     var id = req.body.id;
     var quantity = req.body.quantity;
@@ -147,48 +147,55 @@ app.post('/edit_product_qauntity', function (req,res) {
 
 app.get('/checkout', function (req, res) {
     var total = req.session.total;
-    res.render('pages/checkout', { total:total })
+    res.render('pages/checkout', { total: total })
 })
 
 app.post('/place_order', function (req, res) {
-
-   var cost = req.body.total;
-   var name = req.body.name;
-   var email = req.body.email;
-   var status = req.body.status;
-   var city = req.body.city;
-   var address = req.body.address;
-   var phone = req.body.phone;
-   var date = new Date();
-
+    var cost = req.session.total;
+    var name = req.body.name;
+    var email = req.body.email;
+    var status = "not paid";
+    var city = req.body.city;
+    var address = req.body.address;
+    var phone = req.body.phone;
+    var date = new Date();
+    var products_ids = "";
 
     const connection = mysql.createConnection({
         host: "localhost",
         user: "root",
         password: "",
-        database: "node_prject"
-
+        database: "node_project"
     });
 
-    var cart = req.session,cart
-    for(let i=0; i<cart.length;i++){
-        product_ids = product_ids +","+ cart[i].id;
+    var cart = req.session.cart;
+    if (cart && cart.length > 0) { // Check if cart is defined and not empty
+      for (let i = 0; i < cart.length; i++) {
+        products_ids = products_ids + "," + cart[i].id;
+      }
     }
+
     connection.connect((err) => {
         if (err) {
             console.log(err)
         } else {
-            var query = "INSERT INTO orders(cost,name,email,status,city,address,phone,date,product_ids) VALUES ?";
-            var values = [
-                [cost, name, email, status, city, address, phone, date,product_ids]
-            ];
-            connection.query(query, [values],(err, results)=> {
-                res.redirect('/payment');
-            })
+            var query = "INSERT INTO orders(cost, name, email, status, city, address, phone, date, products_ids) VALUES ?";
+            var values = [[cost || 0, name, email, status, city, address, phone, date, products_ids]];
+            connection.query(query, [values], (err, result) => {
+                if (err) {
+                    console.log(err)
+                } else {
+                    console.log("1 record inserted");
+                    res.redirect('/');
+                }
+                connection.end();
+            });
         }
-    })
-})
-
+    });
+});
+app.get('/payment', function (req, res) {
+    res.render('pages/payment');
+});
 
 app.get('/products', (req, res) => {
     res.render('pages/products');
