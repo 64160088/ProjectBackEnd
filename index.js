@@ -70,23 +70,27 @@ app.post('/add_to_cart', function (req, res) {
     var sale_price = req.body.sale_price;
     var quantity = req.body.quantity;
     var image = req.body.image;
-    var product = { id: id, name: name, price: price, sale_price: sale_price, quantity: quantity, image: image }
-
-    if (req, session.cart) {
-        var cart = res.session.cart;
-        if (!isProductIncart(cart, id)) {
-            cart.push(product);
-        }
+    var product = { id: id, name: name, price: price, sale_price: sale_price, quantity: quantity, image: image };
+  
+    var cart = req.session.cart || []; // Initialize cart array if it doesn't exist
+  
+    // Check if product already exists in cart
+    var existing_product = cart.find(function (item) {
+      return item.id === id;
+    });
+  
+    if (existing_product) {
+      // Increment quantity if product already exists in cart
+      existing_product.quantity += parseInt(quantity);
     } else {
-        req.session.cart = [product];
-        var cart = req.session.cart;
+      // Add new product to cart if it doesn't exist
+      cart.push(product);
     }
-
-    //เครื่องคิดเลข
-    calculateTotal(cart, req);
-    res.redirect('/cart')
-});
-
+  
+    req.session.cart = cart;
+    calculateTotal(cart, req); // Calculate total
+    res.redirect('/cart');
+  });
 
 app.get('/cart', (req, res) => {
     let cart = req.session.cart;
@@ -195,6 +199,22 @@ app.post('/place_order', function (req, res) {
 });
 app.get('/payment', function (req, res) {
     res.render('pages/payment');
+});
+
+app.get('/about', (req, res) => {
+    res.render('pages/about');
+});
+
+app.get('/contact', (req, res) => {
+    res.render('pages/contact');
+});
+
+app.get('/brand', (req, res) => {
+    res.render('pages/brand');
+}); 
+
+app.get('/specials', (req, res) => {
+    res.render('pages/special');
 });
 
 app.get('/products', (req, res) => {

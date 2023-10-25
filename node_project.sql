@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 20, 2023 at 09:48 AM
+-- Generation Time: Oct 25, 2023 at 02:03 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -36,8 +36,16 @@ CREATE TABLE `orders` (
   `city` varchar(255) NOT NULL,
   `address` text NOT NULL,
   `phone` varchar(255) NOT NULL,
-  `date` datetime NOT NULL
+  `date` datetime NOT NULL,
+  `products_ids` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `cost`, `name`, `email`, `status`, `city`, `address`, `phone`, `date`, `products_ids`) VALUES
+(4, 289995.00, 'Chanan Boonserm', 'chanantongza@gmail.com', 'not paid', 'Chonburi', '411/80 ม.5 ต. บ้านสวน', '0990473099', '2023-10-25 19:03:32', ',1,2');
 
 -- --------------------------------------------------------
 
@@ -133,7 +141,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `payments`

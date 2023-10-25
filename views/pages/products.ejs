@@ -54,7 +54,7 @@
                         <div class="full">
                             <div class="center-desk">
                                 <div class="logo">
-                                    <a href="index.html"><img src="images/logo.png" alt="#"></a>
+                                    <a href="/"><img src="images/logo.png" alt="#"></a>
                                 </div>
                             </div>
                         </div>
@@ -66,9 +66,9 @@
                                     <ul class="menu-area-main">
                                         <li class="active"> <a href="/">Home</a> </li>
                                         <li> <a href="/about">About</a> </li>
-                                        <li><a href="/products">products</a></li>
-                                        <li><a href="/cart">cart</a></li>
-                                        <li><a href="/checkout">checkout</a></li>
+                                        <li><a href="/brand">Brand</a></li>
+                                        <li><a href="/special">Specials</a></li>
+                                        <li><a href="/contact">Contact Us</a></li>
                                         <li class="last">
                                             <a href="#"><img src="images/search_icon.png" alt="icon" /></a>
                                         </li>
@@ -77,123 +77,174 @@
                             </div>
                         </div>
                     </div>
-
-                </div>
-            </div>
-        </div>
-        <!-- end header inner -->
+                    <!-- end header inner -->
+    </header>
+    <!-- end header -->
     </header>
 
-<body>
-    <h1>Products</h1>
-    <p>Here is a list of products</p>
-    <form action="/products" method="POST" enctype="multipart/form-data">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name"><br>
+    <body>
+        <h1>Products</h1>
+        <p>Here is a list of products</p>
+        <center>
+        <table>
+            <form action="/products" method="POST" enctype="multipart/form-data" class="main_form">
+                <tr>
+                    <td>
+                        <label for="name">Name:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="name" name="name"><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="description">Description:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="description" name="description"><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="price">Price:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="price" name="price"><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="sale_price">Sale Price:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="sale_price" name="sale_price"><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="quantity">Quantity:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="quantity" name="quantity"><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="image">Image:</label>
+                    </td>
+                    <td>
+                        <input type="file" id="image" name="image"><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="category">Category:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="category" name="category"><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="type">Type:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="type" name="type"><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="rating">Rating:</label>
+                    </td>
+                    <td>
+                        <select id="rating" name="rating" class="form-select form-select-sm">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3" selected>3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" value="Submit" class="btn btn-danger">
+                    </td>
+                </tr>
+            </form>
+        </table>
+    </center>
+        <!-- footer -->
+        <footer>
+            <div id="contact" class="footer">
+                <div class="container">
+                    <div class="row pdn-top-30">
+                        <div class="col-md-12 ">
+                            <div class="footer-box">
+                                <div class="headinga">
+                                    <h3>Address</h3>
+                                    <span>Healing Center, 176 W Streetname,New York, NY 10014, US</span>
+                                    <p>(+71) 8522369417
+                                        <br>demo@gmail.com
+                                    </p>
+                                </div>
+                                <ul class="location_icon">
+                                    <li> <a href="#"><i class="fa fa-facebook-f"></i></a></li>
+                                    <li> <a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li> <a href="#"><i class="fa fa-instagram"></i></a></li>
 
-        <label for="description">Description:</label>
-        <input type="text" id="description" name="description"><br>
+                                </ul>
+                                <div class="menu-bottom">
+                                    <ul class="link">
+                                        <li> <a href="#">Home</a></li>
+                                        <li> <a href="#">About</a></li>
 
-        <label for="price">Price:</label>
-        <input type="text" id="price" name="price"><br>
-
-        <label for="sale_price">Sale Price:</label>
-        <input type="text" id="sale_price" name="sale_price"><br>
-
-        <label for="quantity">Quantity:</label>
-        <input type="text" id="quantity" name="quantity"><br>
-
-        <label for="image">Image:</label>
-        <input type="file" id="image" name="image"><br>
-
-        <label for="category">Category:</label>
-        <input type="text" id="category" name="category"><br>
-
-        <label for="type">Type:</label>
-        <input type="text" id="type" name="type"><br>
-
-        <label for="rating">Rating:</label>
-        <select id="rating" name="rating">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select><br>
-        <input type="submit" value="Submit">
-    </form>
-    
-   <!-- footer -->
-   <footer>
-    <div id="contact" class="footer">
-        <div class="container">
-            <div class="row pdn-top-30">
-                <div class="col-md-12 ">
-                    <div class="footer-box">
-                        <div class="headinga">
-                            <h3>Address</h3>
-                            <span>Healing Center, 176 W Streetname,New York, NY 10014, US</span>
-                            <p>(+71) 8522369417
-                                <br>demo@gmail.com
-                            </p>
-                        </div>
-                        <ul class="location_icon">
-                            <li> <a href="#"><i class="fa fa-facebook-f"></i></a></li>
-                            <li> <a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li> <a href="#"><i class="fa fa-instagram"></i></a></li>
-
-                        </ul>
-                        <div class="menu-bottom">
-                            <ul class="link">
-                                <li> <a href="#">Home</a></li>
-                                <li> <a href="#">About</a></li>
-
-                                <li> <a href="#">Brand </a></li>
-                                <li> <a href="#">Specials </a></li>
-                                <li> <a href="#">Contact us</a></li>
-                            </ul>
+                                        <li> <a href="#">Brand </a></li>
+                                        <li> <a href="#">Specials </a></li>
+                                        <li> <a href="#">Contact us</a></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="copyright">
+                    <div class="container">
+                        <p>© 2019 All Rights Reserved. Design By<a href="https://templates.beatsnoop.com/"> Free ejs
+                                Templates</a></p>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="copyright">
-            <div class="container">
-                <p>© 2019 All Rights Reserved. Design By<a href="https://templates.beatsnoop.com/"> Free ejs
-                        Templates</a></p>
-            </div>
-        </div>
-    </div>
-</footer>
-<!-- end footer -->
-    <!-- Javascript files-->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/jquery-3.0.0.min.js"></script>
-    <script src="js/plugin.js"></script>
-    <!-- sidebar -->
-    <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script src="js/custom.js"></script>
-    <!-- javascript -->
-    <script src="js/owl.carousel.js"></script>
-    <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $(".fancybox").fancybox({
-                openEffect: "none",
-                closeEffect: "none"
+        </footer>
+        <!-- end footer -->
+        <!-- Javascript files-->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="js/jquery-3.0.0.min.js"></script>
+        <script src="js/plugin.js"></script>
+        <!-- sidebar -->
+        <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script src="js/custom.js"></script>
+        <!-- javascript -->
+        <script src="js/owl.carousel.js"></script>
+        <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $(".fancybox").fancybox({
+                    openEffect: "none",
+                    closeEffect: "none"
+                });
+
+                $(".zoom").hover(function () {
+
+                    $(this).addClass('transition');
+                }, function () {
+
+                    $(this).removeClass('transition');
+                });
             });
-
-            $(".zoom").hover(function () {
-
-                $(this).addClass('transition');
-            }, function () {
-
-                $(this).removeClass('transition');
-            });
-        });
-    </script>
-</body>
+        </script>
+    </body>
 
 </html>
